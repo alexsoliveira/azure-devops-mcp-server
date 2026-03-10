@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <!-- MSTest Adapter -->
+  <MSTest>
+    <Parallelize Workers="4" Scope="MethodLevel" />
+  </MSTest>
+  
+  <!-- Code Coverage -->
+  <CodeCoverage>
+    <ModulePaths>
+      <Include>
+        <ModulePath>.*AzureDevOps\.AI\.McpServer\.dll$</ModulePath>
+      </Include>
+      <Exclude>
+        <ModulePath>.*tests.*</ModulePath>
+        <ModulePath>.*Test.*</ModulePath>
+      </Exclude>
+    </ModulePaths>
+    <Functions>
+      <Exclude>
+        <Function>^Xunit\..*</Function>
+      </Exclude>
+    </Functions>
+  </CodeCoverage>
+
+  <!-- Timeout (em ms) -->
+  <RunConfiguration>
+    <TestSessionTimeout>600000</TestSessionTimeout>
+    <MaxCpuCount>4</MaxCpuCount>
+  </RunConfiguration>
+</RunSettings>
