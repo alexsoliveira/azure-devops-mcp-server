@@ -28,7 +28,12 @@ public sealed class ProjectsController(
                 {
                     p.Id,
                     p.Name,
-                    p.Url
+                    p.Description,
+                    p.Url,
+                    p.State,
+                    p.Revision,
+                    p.Visibility,
+                    p.LastUpdateTime
                 }).ToList()
             });
         }
@@ -60,7 +65,12 @@ public sealed class ProjectsController(
                 {
                     project.Id,
                     project.Name,
-                    project.Url
+                    project.Description,
+                    project.Url,
+                    project.State,
+                    project.Revision,
+                    project.Visibility,
+                    project.LastUpdateTime
                 }
             });
         }

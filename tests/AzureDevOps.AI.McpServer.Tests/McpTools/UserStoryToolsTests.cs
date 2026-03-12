@@ -56,7 +56,19 @@ public class UserStoryToolsTests
         var description = "User Story Description";
         var cancellationToken = CancellationToken.None;
 
-        var expectedResult = new WorkItemResult(789, "https://dev.azure.com/org/project/_workitems/edit/789");
+        var expectedResult = new WorkItemResult(
+            Id: 789,
+            Url: "https://dev.azure.com/org/project/_apis/wit/workItems/789",
+            Rev: 1,
+            Fields: new Dictionary<string, object?> { { "System.Title", title } },
+            Links: new WorkItemLinks(
+                Self: new LinkRef("https://dev.azure.com/org/project/_apis/wit/workItems/789"),
+                Html: new LinkRef("https://dev.azure.com/org/project/web/wi.aspx?id=789"),
+                WorkItemUpdates: null,
+                WorkItemRevisions: null,
+                WorkItemHistory: null,
+                WorkItemType: null,
+                Fields: null));
 
         _mockWorkItemService
             .Setup(x => x.CreateWorkItemAsync(
@@ -75,6 +87,7 @@ public class UserStoryToolsTests
         // Assert
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Id, result.Id);
+        Assert.NotNull(result.Links);
         _mockWorkItemService.Verify();
     }
 
@@ -88,7 +101,19 @@ public class UserStoryToolsTests
         var featureId = 456;
         var cancellationToken = CancellationToken.None;
 
-        var expectedResult = new WorkItemResult(789, "https://dev.azure.com/org/project/_workitems/edit/789");
+        var expectedResult = new WorkItemResult(
+            Id: 789,
+            Url: "https://dev.azure.com/org/project/_apis/wit/workItems/789",
+            Rev: 1,
+            Fields: new Dictionary<string, object?> { { "System.Title", title } },
+            Links: new WorkItemLinks(
+                Self: new LinkRef("https://dev.azure.com/org/project/_apis/wit/workItems/789"),
+                Html: new LinkRef("https://dev.azure.com/org/project/web/wi.aspx?id=789"),
+                WorkItemUpdates: null,
+                WorkItemRevisions: null,
+                WorkItemHistory: null,
+                WorkItemType: null,
+                Fields: null));
 
         _mockWorkItemService
             .Setup(x => x.CreateWorkItemAsync(
@@ -106,6 +131,7 @@ public class UserStoryToolsTests
 
         // Assert
         Assert.NotNull(result);
+        Assert.Equal(789, result.Id);
         _mockWorkItemService.Verify();
     }
 

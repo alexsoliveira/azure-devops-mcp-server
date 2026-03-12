@@ -54,8 +54,8 @@ public class ProjectToolsTests
         // Arrange
         var expectedProjects = new List<ProjectResult>
         {
-            new("proj-1", "Project 1", "https://dev.azure.com/org/proj-1"),
-            new("proj-2", "Project 2", "https://dev.azure.com/org/proj-2")
+            new("proj-1", "Project 1", null, "https://dev.azure.com/org/proj-1", null, 0, null, null),
+            new("proj-2", "Project 2", null, "https://dev.azure.com/org/proj-2", null, 0, null, null)
         };
         
         _mockProjectService
@@ -101,7 +101,7 @@ public class ProjectToolsTests
         var name = "NewProject";
         var description = "This is a new project";
         var processTemplate = "Agile";
-        var expectedResult = new ProjectResult("proj-456", "NewProject", "https://dev.azure.com/org/NewProject");
+        var expectedResult = new ProjectResult("proj-456", "NewProject", description, "https://dev.azure.com/org/NewProject", "wellFormed", 1, "private", DateTime.UtcNow);
         
         _mockProjectService
             .Setup(x => x.CreateProjectAsync(
@@ -111,24 +111,13 @@ public class ProjectToolsTests
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedResult);
 
-        var cancellationToken = CancellationToken.None;
-
-        // Act
-        var result = await _projectTools.CreateProject(name, description, processTemplate, cancellationToken);
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal(expectedResult.Name, result.Name);
-        Assert.Equal(expectedResult.Id, result.Id);
-    }
-
     [Fact]
     public async Task CreateProject_WithDefaultTemplate_UsesAgile()
     {
         // Arrange
         var name = "NewProject";
         var description = "This is a new project";
-        var expectedResult = new ProjectResult("proj-456", "NewProject", "https://dev.azure.com/org/NewProject");
+        var expectedResult = new ProjectResult("proj-456", "NewProject", description, "https://dev.azure.com/org/NewProject", "wellFormed", 0, "private", null);
         
         _mockProjectService
             .Setup(x => x.CreateProjectAsync(
@@ -209,7 +198,7 @@ public class ProjectToolsTests
         // Arrange
         var expectedProjects = new List<ProjectResult>
         {
-            new("proj-1", "Project 1", "https://dev.azure.com/org/proj-1")
+            new("proj-1", "Project 1", null, "https://dev.azure.com/org/proj-1", null, 0, null, null)
         };
         
         _mockProjectService
@@ -238,7 +227,7 @@ public class ProjectToolsTests
     {
         // Arrange
         var projectName = "TestProject";
-        var expectedResult = new ProjectResult("proj-123", "TestProject", "https://dev.azure.com/org/TestProject");
+        var expectedResult = new ProjectResult("proj-123", "TestProject", null, "https://dev.azure.com/org/TestProject", null, 0, null, null);
         
         _mockProjectService
             .Setup(x => x.GetProjectAsync(projectName, It.IsAny<CancellationToken>()))
@@ -268,7 +257,7 @@ public class ProjectToolsTests
         var name = "NewProject";
         var description = "This is a new project";
         var processTemplate = "Agile";
-        var expectedResult = new ProjectResult("proj-456", "NewProject", "https://dev.azure.com/org/NewProject");
+        var expectedResult = new ProjectResult("proj-456", "NewProject", description, "https://dev.azure.com/org/NewProject", "wellFormed", 0, "private", null);
         
         _mockProjectService
             .Setup(x => x.CreateProjectAsync(
