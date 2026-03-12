@@ -8,7 +8,7 @@ using AzureDevOps.AI.McpServer.Security;
 namespace AzureDevOps.AI.McpServer.Infrastructure.AzureDevOps;
 
 /// <summary>Manages the VssConnection and typed client access to Azure DevOps REST APIs.</summary>
-internal sealed class AzureDevOpsClient : IAzureDevOpsClient
+public sealed class AzureDevOpsClient : IAzureDevOpsClient
 {
     private readonly VssConnection _connection;
 

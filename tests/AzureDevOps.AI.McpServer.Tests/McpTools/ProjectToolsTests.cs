@@ -77,7 +77,7 @@ public class ProjectToolsTests
     {
         // Arrange
         var projectName = "TestProject";
-        var expectedResult = new ProjectResult("proj-123", "TestProject", "https://dev.azure.com/org/TestProject");
+        var expectedResult = new ProjectResult("proj-123", "TestProject", null, "https://dev.azure.com/org/TestProject", null, 0, null, null);
         
         _mockProjectService
             .Setup(x => x.GetProjectAsync(projectName, It.IsAny<CancellationToken>()))
@@ -100,7 +100,7 @@ public class ProjectToolsTests
         // Arrange
         var name = "NewProject";
         var description = "This is a new project";
-        var processTemplate = "Agile";
+        var processTemplate = "Basic";
         var expectedResult = new ProjectResult("proj-456", "NewProject", description, "https://dev.azure.com/org/NewProject", "wellFormed", 1, "private", DateTime.UtcNow);
         
         _mockProjectService
@@ -111,8 +111,19 @@ public class ProjectToolsTests
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedResult);
 
+        var cancellationToken = CancellationToken.None;
+
+        // Act
+        var result = await _projectTools.CreateProject(name, description, processTemplate, cancellationToken);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(expectedResult.Name, result.Name);
+        Assert.Equal(expectedResult.Id, result.Id);
+    }
+
     [Fact]
-    public async Task CreateProject_WithDefaultTemplate_UsesAgile()
+    public async Task CreateProject_WithDefaultTemplate_UsesBasic()
     {
         // Arrange
         var name = "NewProject";
@@ -123,13 +134,13 @@ public class ProjectToolsTests
             .Setup(x => x.CreateProjectAsync(
                 name,
                 description,
-                "Agile",  // Default template
+                "Basic",  // Default template
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedResult);
 
         var cancellationToken = CancellationToken.None;
 
-        // Act - uses default template
+        // Act - uses default template (Basic)
         var result = await _projectTools.CreateProject(name, description, cancellationToken: cancellationToken);
 
         // Assert
@@ -175,7 +186,7 @@ public class ProjectToolsTests
         // Arrange
         var name = "NewProject";
         var description = "This is a new project";
-        var processTemplate = "Agile";
+        var processTemplate = "Basic";
         
         _mockProjectService
             .Setup(x => x.CreateProjectAsync(
@@ -256,7 +267,7 @@ public class ProjectToolsTests
         // Arrange
         var name = "NewProject";
         var description = "This is a new project";
-        var processTemplate = "Agile";
+        var processTemplate = "Basic";
         var expectedResult = new ProjectResult("proj-456", "NewProject", description, "https://dev.azure.com/org/NewProject", "wellFormed", 0, "private", null);
         
         _mockProjectService

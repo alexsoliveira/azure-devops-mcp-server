@@ -15,9 +15,17 @@ builder.Logging.ClearProviders();
 if (builder.Environment.IsDevelopment())
 {
     builder.Logging.AddConsole();
+    builder.Logging.SetMinimumLevel(LogLevel.Debug);
+}
+else
+{
+    // In production, ensure errors are logged
+    builder.Logging.AddConsole();
+    builder.Logging.SetMinimumLevel(LogLevel.Information);
 }
 
-builder.Logging.SetMinimumLevel(LogLevel.None);
+// Always log Azure DevOps errors in detail
+builder.Logging.AddFilter("AzureDevOps.AI.McpServer", LogLevel.Debug);
 
 // Security
 builder.Services.AddSingleton<TokenProvider>();

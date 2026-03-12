@@ -36,7 +36,7 @@ public sealed class ProjectTools(IProjectService projectService, ILogger<Project
     public async Task<ProjectResult> CreateProject(
         [Description("Project name")] string name,
         [Description("Project description")] string description,
-        [Description("Process template name (default: Agile)")] string processTemplate = "Agile",
+        [Description("Process template name (default: Basic) - options: Basic, Agile, Scrum, CMMI")] string processTemplate = "Basic",
         CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Tool ado_project_create invoked: '{Name}'", name);
