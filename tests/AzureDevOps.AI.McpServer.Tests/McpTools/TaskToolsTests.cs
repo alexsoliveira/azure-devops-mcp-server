@@ -56,7 +56,19 @@ public class TaskToolsTests
         var description = "Task Description";
         var cancellationToken = CancellationToken.None;
 
-        var expectedResult = new WorkItemResult(999, "https://dev.azure.com/org/project/_workitems/edit/999");
+        var expectedResult = new WorkItemResult(
+            Id: 999,
+            Url: "https://dev.azure.com/org/project/_apis/wit/workItems/999",
+            Rev: 1,
+            Fields: new Dictionary<string, object?> { { "System.Title", title } },
+            Links: new WorkItemLinks(
+                Self: new LinkRef("https://dev.azure.com/org/project/_apis/wit/workItems/999"),
+                Html: new LinkRef("https://dev.azure.com/org/project/web/wi.aspx?id=999"),
+                WorkItemUpdates: null,
+                WorkItemRevisions: null,
+                WorkItemHistory: null,
+                WorkItemType: null,
+                Fields: null));
 
         _mockWorkItemService
             .Setup(x => x.CreateWorkItemAsync(
@@ -75,6 +87,7 @@ public class TaskToolsTests
         // Assert
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Id, result.Id);
+        Assert.NotNull(result.Links);
         _mockWorkItemService.Verify();
     }
 
@@ -88,7 +101,19 @@ public class TaskToolsTests
         var userStoryId = 789;
         var cancellationToken = CancellationToken.None;
 
-        var expectedResult = new WorkItemResult(999, "https://dev.azure.com/org/project/_workitems/edit/999");
+        var expectedResult = new WorkItemResult(
+            Id: 999,
+            Url: "https://dev.azure.com/org/project/_apis/wit/workItems/999",
+            Rev: 1,
+            Fields: new Dictionary<string, object?> { { "System.Title", title } },
+            Links: new WorkItemLinks(
+                Self: new LinkRef("https://dev.azure.com/org/project/_apis/wit/workItems/999"),
+                Html: new LinkRef("https://dev.azure.com/org/project/web/wi.aspx?id=999"),
+                WorkItemUpdates: null,
+                WorkItemRevisions: null,
+                WorkItemHistory: null,
+                WorkItemType: null,
+                Fields: null));
 
         _mockWorkItemService
             .Setup(x => x.CreateWorkItemAsync(
@@ -106,6 +131,7 @@ public class TaskToolsTests
 
         // Assert
         Assert.NotNull(result);
+        Assert.NotNull(result.Links);
         _mockWorkItemService.Verify();
     }
 
@@ -118,7 +144,19 @@ public class TaskToolsTests
         var description = "";
         var cancellationToken = CancellationToken.None;
 
-        var expectedResult = new WorkItemResult(999, "https://dev.azure.com/org/project/_workitems/edit/999");
+        var expectedResult = new WorkItemResult(
+            Id: 999,
+            Url: "https://dev.azure.com/org/project/_apis/wit/workItems/999",
+            Rev: 1,
+            Fields: new Dictionary<string, object?> { { "System.Title", title } },
+            Links: new WorkItemLinks(
+                Self: new LinkRef("https://dev.azure.com/org/project/_apis/wit/workItems/999"),
+                Html: new LinkRef("https://dev.azure.com/org/project/web/wi.aspx?id=999"),
+                WorkItemUpdates: null,
+                WorkItemRevisions: null,
+                WorkItemHistory: null,
+                WorkItemType: null,
+                Fields: null));
 
         _mockWorkItemService
             .Setup(x => x.CreateWorkItemAsync(

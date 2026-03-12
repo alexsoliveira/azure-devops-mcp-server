@@ -56,7 +56,19 @@ public class EpicToolsTests
         var description = "Epic Description";
         var cancellationToken = CancellationToken.None;
 
-        var expectedResult = new WorkItemResult(123, "https://dev.azure.com/org/project/_workitems/edit/123");
+        var expectedResult = new WorkItemResult(
+            Id: 123,
+            Url: "https://dev.azure.com/org/project/_apis/wit/workItems/123",
+            Rev: 1,
+            Fields: new Dictionary<string, object?> { { "System.Title", title } },
+            Links: new WorkItemLinks(
+                Self: new LinkRef("https://dev.azure.com/org/project/_apis/wit/workItems/123"),
+                Html: new LinkRef("https://dev.azure.com/org/project/web/wi.aspx?id=123"),
+                WorkItemUpdates: null,
+                WorkItemRevisions: null,
+                WorkItemHistory: null,
+                WorkItemType: null,
+                Fields: null));
 
         _mockWorkItemService
             .Setup(x => x.CreateWorkItemAsync(
@@ -74,6 +86,8 @@ public class EpicToolsTests
         // Assert
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Id, result.Id);
+        Assert.Equal(1, result.Rev);
+        Assert.NotNull(result.Links);
     }
 
     [Fact]

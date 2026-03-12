@@ -14,7 +14,15 @@ internal sealed class ProjectService(AzureDevOpsClient client, ILogger<ProjectSe
         var projectClient = await client.GetProjectClientAsync();
         var projects = await projectClient.GetProjects();
 
-        return projects.Select(p => new ProjectResult(p.Id.ToString(), p.Name, p.Url)).ToList();
+        return projects.Select(p => new ProjectResult(
+            p.Id.ToString(),
+            p.Name,
+            p.Description,
+            p.Url,
+            p.State.ToString(),
+            p.Revision,
+            p.Visibility.ToString(),
+            p.LastUpdateTime)).ToList();
     }
 
     public async Task<ProjectResult> GetProjectAsync(string projectNameOrId, CancellationToken cancellationToken = default)
@@ -24,7 +32,15 @@ internal sealed class ProjectService(AzureDevOpsClient client, ILogger<ProjectSe
         var projectClient = await client.GetProjectClientAsync();
         var project = await projectClient.GetProject(projectNameOrId);
 
-        return new ProjectResult(project.Id.ToString(), project.Name, project.Url);
+        return new ProjectResult(
+            project.Id.ToString(),
+            project.Name,
+            project.Description,
+            project.Url,
+            project.State.ToString(),
+            project.Revision,
+            project.Visibility.ToString(),
+            project.LastUpdateTime);
     }
 
     public async Task<ProjectResult> CreateProjectAsync(
@@ -67,6 +83,14 @@ internal sealed class ProjectService(AzureDevOpsClient client, ILogger<ProjectSe
         var created = await projectClient.GetProject(name);
         logger.LogInformation("Project '{Name}' created with ID {Id}", name, created.Id);
 
-        return new ProjectResult(created.Id.ToString(), created.Name, created.Url);
+        return new ProjectResult(
+            created.Id.ToString(),
+            created.Name,
+            created.Description,
+            created.Url,
+            created.State.ToString(),
+            created.Revision,
+            created.Visibility.ToString(),
+            created.LastUpdateTime);
     }
 }
